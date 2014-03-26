@@ -1,0 +1,3 @@
+<% @nodes_hash.sort.each do |key, node| %>
+server.<%= node['id'] %>=<%= node['address'] -%>:<%= node['leader_port'] -%>:<%= node['election_port'] -%>
+<% end %>
