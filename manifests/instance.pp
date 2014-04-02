@@ -23,11 +23,13 @@ define zookeeper::instance (
   }
 
   if $root_dir != '/var/lib' {
-    file {$root_dir :
-      ensure  => present,
-      owner   => 'zookeeper',
-      group   => 'zookeeper',
-      mode    => '0755'
+    if !defined(File[$root_dir]) {
+      file {$root_dir :
+        ensure  => present,
+        owner   => 'zookeeper',
+        group   => 'zookeeper',
+        mode    => '0755'
+      }
     }
   }
 
