@@ -1,9 +1,9 @@
 define zookeeper::instance (
   $instance_id      = '',
   $client_port      = '',
-  $datadir          = '',
   $listen_address   = '',
   $listen_interface = '',
+  $root_dir         = '/var/lib'
 ) {
 
   $start_port='2180'
@@ -22,10 +22,16 @@ define zookeeper::instance (
     default => $client_port
   }
 
-  $real_datadir = $datadir?{
-    ''      => "/var/lib/zookeeper${id}",
-    default => $datadir
+  if $root_dir != '/var/lib' {
+    file {$root_dir :
+      ensure  => present,
+      owner   => 'zookeeper',
+      group   => 'zookeeper',
+      mode    => '0755'
+    }
   }
+
+  $datadir = "${root_dir}/zookeeper{$id}"
 
   if ($listen_interface == '') and ($listen_address == '') {
     fail('please specify listen_address or listen_interface')
@@ -35,7 +41,7 @@ define zookeeper::instance (
   zookeeper::instance::config {$name:
     id            => $id,
     client_port   => $port,
-    datadir       => $real_datadir,
+    datadir       => $datadir,
   }
 
   $listen = $listen_address? {
