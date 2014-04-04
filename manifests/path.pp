@@ -12,7 +12,6 @@ define zookeeper::path (
 
   exec {"create_path_${path}_${id}":
     command => "/usr/share/zookeeper/bin/zkCli.sh -server ${address}:${client_port} -cmd create /${path} $path",
-    unless  => "/usr/share/zookeeper/bin/zkCli.sh -server ${address}:${client_port} -cmd ls2 / 2>&1 | grep ${path}",
-    require => Exec["start_zookeeper_${id}"],
+    unless  => "/usr/share/zookeeper/bin/zkCli.sh -server ${address}:${client_port} -cmd ls2 / 2>&1 | grep ${path}"
   }
 }
