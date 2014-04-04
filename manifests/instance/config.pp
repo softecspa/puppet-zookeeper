@@ -22,7 +22,7 @@ define zookeeper::instance::config (
   file {"${datadir}/myid":
     ensure  => link,
     target  => "/etc/zookeeper/conf/myid${id}",
-    require => File["/var/lib/zookeeper${id}"]
+    require => File[$datadir]
   }
 
   file {"/etc/zookeeper/conf/zoo${id}.cfg":

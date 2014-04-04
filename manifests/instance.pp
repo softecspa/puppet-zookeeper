@@ -23,7 +23,7 @@ define zookeeper::instance (
   }
 
   $real_datadir = $datadir?{
-    ''      => "/var/lib/zookeeper${id}",
+    ''      => "/opt/zookeeper${id}",
     default => $datadir
   }
 
