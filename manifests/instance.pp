@@ -4,6 +4,8 @@ define zookeeper::instance (
   $datadir          = '',
   $listen_address   = '',
   $listen_interface = '',
+  $balancer_cluster = '',
+  $balancer_port    = '2180',
 ) {
 
   $start_port='2180'
@@ -47,6 +49,15 @@ define zookeeper::instance (
     id      => $id,
     listen  => $listen,
     port    => $port
+  }
+
+  if $balancer_cluster != '' {
+    haproxy::balanced_zookeeper {"${balancer_cluster}_${port}":
+      cluster_balancer    => $balancer_cluster,
+      balanced_interface  => $listen_interface,
+      balanced_address    => $listen_address,
+      port                => $port
+    }
   }
 
   Class['zookeeper::install'] ->
