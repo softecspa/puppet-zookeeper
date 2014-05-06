@@ -1,3 +1,37 @@
+# Define: zookeeper::instance
+#
+# This define creates a zookeeper instance
+#
+# Parameters:
+#
+# [*instance_id*]
+#   Integer, id of the instance. If empty, <name> will be used
+#
+# [*client_port*]
+#   client_port used by zookeeper to comunicate with solr. Default: 2180 + $instance_id
+#
+# [*datadir*]
+#   directory where instance's data is stored. Default: /opt/zookeeper${instance_id}
+#
+# [*listen_address*]
+#   IP or host address on which zookeeper instance is listening
+#
+# [*listen_interface*]
+#   Interface used by zookeeper instance to listen to. ipaddress_${listen_interface} will be used as listen_address
+#
+# [*monitored*]
+#   It true, instance will be monitored by nagios
+#
+# [*monitored_hostname*]
+#   Hostname used by nagios to perform the checks. Default: $::hostname
+#
+# [*notifications_enabled*]
+#   1 enable nagios notification, 0 otherwise. Default: undef
+#
+# [*notification_period*]
+#   Notification period used in nagios service. Default: undef
+#
+#
 define zookeeper::instance (
   $instance_id            = '',
   $client_port            = '',
