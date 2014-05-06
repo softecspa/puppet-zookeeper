@@ -1,11 +1,15 @@
 define zookeeper::instance (
-  $instance_id      = '',
-  $client_port      = '',
-  $datadir          = '',
-  $listen_address   = '',
-  $listen_interface = '',
-  $balancer_cluster = '',
-  $balancer_port    = '2180',
+  $instance_id            = '',
+  $client_port            = '',
+  $datadir                = '',
+  $listen_address         = '',
+  $listen_interface       = '',
+  $balancer_cluster       = '',
+  $balancer_port          = '2180',
+  $monitored              = true,
+  $monitored_hostname     = $::hostname,
+  $notifications_enabled  = undef,
+  $notification_period    = undef,
 ) {
 
   $start_port='2180'
@@ -57,6 +61,14 @@ define zookeeper::instance (
       balanced_interface  => $listen_interface,
       balanced_address    => $listen_address,
       port                => $port
+    }
+  }
+
+  if $monitored {
+    zookeeper::instance::monitoring {$id :
+      monitored_hostname    => $monitored_hostname,
+      notifications_enabled => $notifications_enabled,
+      notification_period   => $notification_period,
     }
   }
 
