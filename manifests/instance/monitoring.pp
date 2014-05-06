@@ -2,19 +2,21 @@ define zookeeper::instance::monitoring (
   $monitored_hostname,
   $notifications_enabled  = undef,
   $notification_period    = undef,
+  $listen_address,
+  $port,
 ) {
 
   $id=$name
 
-  nrpe::check_procs { "zookeeper${id}":
-    crit            => '1:1',
-    command         => 'java',
-    argument_array  => "zoo${id}.cfg"
+  nrpe::check { "zookeeper${id}":
+    binaryname  => 'check_generic',
+    contrib     => true,
+    params      => "-e \"/bin/echo ruok | nc ${listen_address} ${port}\" -o \"=~/imok/\""
   }
 
   $nrpe_check_name = $monitored_hostname? {
-    $::hostname => "!check_proc_zookeeper${id}",
-    default     => "!check_proc_zookeeper${id}_${::hostname}"
+    $::hostname => "!check_zookeeper${id}",
+    default     => "!check_zookeeper${id}_${::hostname}"
   }
 
   $service_description = $monitored_hostname? {

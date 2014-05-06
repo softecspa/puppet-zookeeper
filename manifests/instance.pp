@@ -69,6 +69,8 @@ define zookeeper::instance (
       monitored_hostname    => $monitored_hostname,
       notifications_enabled => $notifications_enabled,
       notification_period   => $notification_period,
+      port                  => $port,
+      listen_address        => $listen
     }
   }
 
