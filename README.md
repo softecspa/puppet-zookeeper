@@ -1,4 +1,4 @@
 puppet-zookeeper
 ================
 
-manage zookeeper install, config and cluster
+manage zookeeper install, config and cluster.
